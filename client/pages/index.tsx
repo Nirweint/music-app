@@ -1,12 +1,28 @@
 import React from 'react';
-import Button from "@mui/material/Button";
+import {MainLayout} from "../layouts/MainLayout";
 
 const Index = () => {
   return (
-    <div>
-      Main page
-      <Button>Hello</Button>
-    </div>
+    <>
+      <MainLayout>
+        <div className='center'>
+          <h1>Main page</h1>
+          <h3>Music app</h3>
+        </div>
+      </MainLayout>
+
+      <style jsx>
+        {`
+          .center {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          }
+        `}
+      </style>
+    </>
   );
 };
 
