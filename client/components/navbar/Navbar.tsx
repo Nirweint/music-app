@@ -1,51 +1,58 @@
 import React from 'react';
-import {useRouter} from "next/router";
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/icons-material/Menu';
+
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
-import MoveToInbox from '@mui/icons-material/MoveToInbox';
 import Mail from '@mui/icons-material/Mail';
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import AppBar from "@mui/material/AppBar";
-import ListItem from "@mui/material/ListItem";
-import {PATH} from "../../constants";
+import Menu from '@mui/icons-material/Menu';
+import MoveToInbox from '@mui/icons-material/MoveToInbox';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { useRouter } from 'next/router';
+
+import { Path } from 'enums';
+import { ReturnComponentType } from 'types';
+import { isEven } from 'utils';
 
 const menuItems = [
   {
-    text: 'Main', href: PATH.MAIN
+    text: 'Main',
+    href: Path.MAIN,
   },
   {
-    text: 'Tracks list', href: PATH.TRACKS
+    text: 'Tracks list',
+    href: Path.TRACKS,
   },
   {
-    text: 'Albums list', href: PATH.ALBUMS
+    text: 'Albums list',
+    href: Path.ALBUMS,
   },
 ];
 
 const drawerWidth = 240;
 
-export const Navbar = () => {
+export const Navbar = (): ReturnComponentType => {
   const [open, setOpen] = React.useState(false);
-  const router = useRouter()
+  const router = useRouter();
 
-  const handleDrawerOpen = () => {
+  const handleDrawerOpen = (): void => {
     setOpen(true);
   };
 
-  const handleDrawerClose = () => {
+  const handleDrawerClose = (): void => {
     setOpen(false);
   };
 
   return (
-    <Box sx={{display: 'flex'}}>
-      <CssBaseline/>
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
       <AppBar position="fixed">
         <Toolbar>
           <IconButton
@@ -53,9 +60,9 @@ export const Navbar = () => {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{mr: 2, ...(open && {display: 'none'})}}
+            sx={{ mr: 2, ...(open && { display: 'none' }) }}
           >
-            <Menu/>
+            <Menu />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             Persistent drawer
@@ -73,25 +80,23 @@ export const Navbar = () => {
       >
         <div>
           <IconButton onClick={handleDrawerClose}>
-            <ChevronLeft/>
+            <ChevronLeft />
           </IconButton>
         </div>
         <List>
-          {menuItems.map(({text, href}, index) => {
-            const handleRouterClick = () => {
-              return router.push(href)
-            }
+          {menuItems.map(({ text, href }, index) => {
+            const handleRouterClick = (): Promise<boolean> => {
+              return router.push(href);
+            };
             return (
               <ListItem button key={href} onClick={handleRouterClick}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <MoveToInbox/> : <Mail/>}
-                </ListItemIcon>
-                <ListItemText primary={text}/>
+                <ListItemIcon>{isEven(index) ? <MoveToInbox /> : <Mail />}</ListItemIcon>
+                <ListItemText primary={text} />
               </ListItem>
-            )
+            );
           })}
         </List>
       </Drawer>
     </Box>
   );
-}
+};
