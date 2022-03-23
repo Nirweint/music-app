@@ -65,7 +65,7 @@ export const Navbar = (): ReturnComponentType => {
             <Menu />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Persistent drawer
+            Music platform
           </Typography>
         </Toolbar>
       </AppBar>
