@@ -58,7 +58,7 @@ const Index = (): ReturnComponentType => {
           <Box p={1}>
             <Grid container justifyContent="space-between">
               <h1>Tracks list</h1>
-              <Button onClick={handleDownloadTrackClick}>Download</Button>
+              <Button onClick={handleDownloadTrackClick}>Upload</Button>
             </Grid>
           </Box>
           <TrackList tracks={tracks} />

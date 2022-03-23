@@ -30,8 +30,12 @@ const TrackPage = (): ReturnComponentType => {
 
   return (
     <MainLayout>
-      <Button variant="outlined" sx={{ fontSize: 32 }} onClick={handleToListButtonClick}>
-        To list
+      <Button
+        variant="outlined"
+        sx={{ fontSize: 20, marginTop: 2 }}
+        onClick={handleToListButtonClick}
+      >
+        Back to list
       </Button>
       <Grid container sx={{ margin: '20px 0' }}>
         <Image width={200} height={200} src={track.picture} alt="track picture" />
@@ -46,8 +50,14 @@ const TrackPage = (): ReturnComponentType => {
       <h1>Commnets</h1>
       <Grid container>
         <TextField label={`You're name`} fullWidth />
-        <TextField label="Comment" fullWidth multiline rows={4} />
-        <Button>Send comment</Button>
+        <TextField
+          style={{ marginTop: 10 }}
+          label="Comment"
+          fullWidth
+          multiline
+          rows={4}
+        />
+        <Button style={{ marginTop: 10 }}>Send comment</Button>
       </Grid>
       <div>
         {track.comments.map(({ username, text, _id }) => {
