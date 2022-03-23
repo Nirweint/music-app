@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import Mail from '@mui/icons-material/Mail';
@@ -39,7 +39,7 @@ const menuItems = [
 const drawerWidth = 240;
 
 export const Navbar = (): ReturnComponentType => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
 
   const handleDrawerOpen = (): void => {
@@ -88,6 +88,7 @@ export const Navbar = (): ReturnComponentType => {
             const handleRouterClick = (): Promise<boolean> => {
               return router.push(href);
             };
+
             return (
               <ListItem button key={href} onClick={handleRouterClick}>
                 <ListItemIcon>{isEven(index) ? <MoveToInbox /> : <Mail />}</ListItemIcon>
