@@ -47,7 +47,7 @@ const TrackPage = (): ReturnComponentType => {
       </Grid>
       <h1>Track text</h1>
       <p>{track.text}</p>
-      <h1>Commnets</h1>
+      <h1>Comments</h1>
       <Grid container>
         <TextField label={`You're name`} fullWidth />
         <TextField
