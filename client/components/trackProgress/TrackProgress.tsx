@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 import { ReturnComponentType } from 'types';
 
 type TrackProgressPropsType = {
   left: number;
   right: number;
-  onChange: () => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const TrackProgress = ({
@@ -15,7 +15,7 @@ export const TrackProgress = ({
 }: TrackProgressPropsType): ReturnComponentType => {
   return (
     <div style={{ display: 'flex' }}>
-      <input type="range" min={left} max={right} value={left} onChange={onChange} />
+      <input type="range" min={0} max={right} value={left} onChange={onChange} />
       <div>
         {left} / {right}
       </div>
