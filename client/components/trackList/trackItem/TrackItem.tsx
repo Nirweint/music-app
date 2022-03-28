@@ -13,6 +13,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { Path } from 'enums';
+import { useActions } from 'hooks';
 import { ReturnComponentType, TrackType } from 'types';
 
 type TrackItemPropsType = {
@@ -25,6 +26,7 @@ export const TrackItem = ({
   active = false,
 }: TrackItemPropsType): ReturnComponentType => {
   const router = useRouter();
+  const { playTrack, pauseTrack, setActiveTrack } = useActions();
 
   const { picture, name, artist, _id } = track;
 
@@ -32,13 +34,19 @@ export const TrackItem = ({
     return router.push(Path.TRACKS + '/' + _id);
   };
 
-  const handleIconClick = (e: MouseEvent<HTMLButtonElement>): void => {
+  const handlePlayIconClick = (e: MouseEvent<HTMLButtonElement>): void => {
+    e.stopPropagation();
+    setActiveTrack(track);
+    playTrack();
+  };
+
+  const handleDeleteIconClick = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
   };
 
   return (
     <Card className={styles.track} onClick={handleTrackCardClick}>
-      <IconButton onClick={handleIconClick}>
+      <IconButton onClick={handlePlayIconClick}>
         {active ? <Pause /> : <PlayArrow />}
       </IconButton>
       <Image width={70} height={70} src={picture} alt="track picture" />
@@ -47,7 +55,7 @@ export const TrackItem = ({
         <div className={styles.artist}>{artist}</div>
       </Grid>
       {active && <div>02:33 / 03:44</div>}
-      <IconButton onClick={handleIconClick} sx={{ marginLeft: 'auto' }}>
+      <IconButton onClick={handleDeleteIconClick} sx={{ marginLeft: 'auto' }}>
         <Delete />
       </IconButton>
     </Card>
