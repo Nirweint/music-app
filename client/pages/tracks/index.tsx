@@ -8,48 +8,27 @@ import { useRouter } from 'next/router';
 
 import { TrackList } from 'components/trackList/TrackList';
 import { Path } from 'enums';
+import { useTypedSelector } from 'hooks';
 import { MainLayout } from 'layouts/MainLayout';
-import { ReturnComponentType, TrackType } from 'types';
+import { NextThunkDispatch, wrapper } from 'store';
+import { fetchTracks } from 'store/actions/track';
+import { ReturnComponentType } from 'types';
 
 const Index = (): ReturnComponentType => {
   const router = useRouter();
-
-  const tracks: TrackType[] = [
-    {
-      _id: '1',
-      name: 'Trac1',
-      artist: 'BTS',
-      audio: '',
-      comments: [],
-      listens: 2,
-      text: '1',
-      picture: 'http://localhost:5000/image/19fc51d2-4921-41b9-b675-40628352bb54.jpg',
-    },
-    {
-      _id: '2',
-      name: 'Trac2',
-      artist: 'Ed Sheeran',
-      audio: '',
-      comments: [],
-      listens: 2,
-      text: '1',
-      picture: 'http://localhost:5000/image/19fc51d2-4921-41b9-b675-40628352bb54.jpg',
-    },
-    {
-      _id: '3',
-      name: 'Trac3',
-      artist: 'Sofi',
-      audio: '',
-      comments: [],
-      listens: 2,
-      text: '1',
-      picture: 'http://localhost:5000/image/19fc51d2-4921-41b9-b675-40628352bb54.jpg',
-    },
-  ];
+  const { tracks, error } = useTypedSelector(state => state.track);
 
   const handleDownloadTrackClick = (): Promise<boolean> => {
     return router.push(Path.CREATE_TRACK);
   };
+
+  if (error) {
+    return (
+      <MainLayout>
+        <h1>{error}</h1>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>
@@ -69,3 +48,9 @@ const Index = (): ReturnComponentType => {
 };
 
 export default Index;
+
+// @ts-ignore
+export const getServerSideProps = wrapper.getServerSideProps(store => async () => {
+  const someDispatch = store.dispatch as NextThunkDispatch;
+  await someDispatch(await fetchTracks());
+});

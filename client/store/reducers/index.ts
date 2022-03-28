@@ -1,14 +1,17 @@
 import { HYDRATE } from 'next-redux-wrapper';
 import { combineReducers } from 'redux';
 
-import { playerReducer } from 'store/reducers/Player';
+import { playerReducer } from 'store/reducers/player';
+import { trackReducer } from 'store/reducers/track';
 
 export const rootReducer = combineReducers({
   player: playerReducer,
+  track: trackReducer,
 });
 
-// @ts-ignore
-export const reducer = (state, action): RootStateType => {
+//@ts-ignore
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export const reducer = (state, action) => {
   if (action.type === HYDRATE) {
     const nextState = {
       ...state, // use previous state

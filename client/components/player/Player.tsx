@@ -6,6 +6,7 @@ import VolumeUp from '@mui/icons-material/VolumeUp';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 
+import { baseURL } from 'api/config';
 import styles from 'components/player/Player.module.scss';
 import { TrackProgress } from 'components/trackProgress/TrackProgress';
 import { useActions, useTypedSelector } from 'hooks';
@@ -22,7 +23,7 @@ export const Player = (): ReturnComponentType => {
 
   const setAudio = (): void => {
     if (active) {
-      audio.src = active.audio;
+      audio.src = baseURL + active.audio;
       audio.volume = +(volume / PROCENT).toFixed(1);
       audio.onloadedmetadata = () => {
         setDuration(Math.ceil(audio.duration));

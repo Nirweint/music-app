@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
+import { baseURL } from 'api/config';
 import { Path } from 'enums';
 import { useActions } from 'hooks';
 import { ReturnComponentType, TrackType } from 'types';
@@ -49,7 +50,7 @@ export const TrackItem = ({
       <IconButton onClick={handlePlayIconClick}>
         {active ? <Pause /> : <PlayArrow />}
       </IconButton>
-      <Image width={70} height={70} src={picture} alt="track picture" />
+      <Image width={70} height={70} src={baseURL + picture} alt="track picture" />
       <Grid container direction="column" sx={{ width: 200, margin: '0 20px' }}>
         <div>{name}</div>
         <div className={styles.artist}>{artist}</div>
