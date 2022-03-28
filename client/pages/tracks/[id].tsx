@@ -1,26 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
+import { trackAPI } from 'api';
+import { baseURL } from 'api/config';
 import { Path } from 'enums';
 import { MainLayout } from 'layouts/MainLayout';
 import { ReturnComponentType, TrackType } from 'types';
 
-const TrackPage = (): ReturnComponentType => {
-  const track: TrackType = {
-    _id: '1',
-    name: 'Trac1',
-    artist: 'BTS',
-    audio: '',
-    comments: [],
-    listens: 2,
-    text: '1sadfhkj sahdfhasjkdhfjksahdjfh kajsdhf  dsj asdh fj shd kjdasfh j ahdsjkfh ksa dkf haskjdhf kjdsh j hdfj haskjd hfkasd hkjsadhkf haskj   asdhkjfasjk dhfkj ashdjkfhaskd  jash fkjhaskjd fhkadshf k ks dhfkjjash kjfhsadkj  sadh fkjsadhjkf hsadkjh fkjsadhfk jsdh fksdkf hdasjkfh kadsh fkjsadh k fhdask',
-    picture: 'http://localhost:5000/image/19fc51d2-4921-41b9-b675-40628352bb54.jpg',
-  };
+type TrackPagePropsType = {
+  serverTrack: TrackType;
+};
+
+const TrackPage = ({ serverTrack }: TrackPagePropsType): ReturnComponentType => {
+  const [track, setTrack] = useState<TrackType>(serverTrack);
 
   const router = useRouter();
 
@@ -38,7 +36,12 @@ const TrackPage = (): ReturnComponentType => {
         Back to list
       </Button>
       <Grid container sx={{ margin: '20px 0' }}>
-        <Image width={200} height={200} src={track.picture} alt="track picture" />
+        <Image
+          width={200}
+          height={200}
+          src={baseURL + track.picture}
+          alt="track picture"
+        />
         <div style={{ marginLeft: 30 }}>
           <h1>Track name - {track.name}</h1>
           <h1>Artist - {track.artist}</h1>
@@ -74,3 +77,17 @@ const TrackPage = (): ReturnComponentType => {
 };
 
 export default TrackPage;
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  let data;
+  if (params) {
+    const response = await trackAPI.getTrack(params.id as string);
+    data = response.data;
+  }
+
+  return {
+    props: {
+      serverTrack: data,
+    },
+  };
+};

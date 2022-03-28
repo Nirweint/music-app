@@ -51,7 +51,7 @@ export const Player = (): ReturnComponentType => {
 
   const handleCurrentTimeChange = (e: ChangeEvent<HTMLInputElement>): void => {
     audio.currentTime = +e.target.value;
-    setVolume(Number(e.target.value));
+    setCurrentTime(Number(e.target.value));
   };
 
   useEffect(() => {
