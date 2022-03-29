@@ -27,7 +27,7 @@ export const TrackItem = ({
   active = false,
 }: TrackItemPropsType): ReturnComponentType => {
   const router = useRouter();
-  const { playTrack, pauseTrack, setActiveTrack } = useActions();
+  const { playTrack, setActiveTrack } = useActions();
 
   const { picture, name, artist, _id } = track;
 
