@@ -8,6 +8,9 @@ export const trackAPI = {
   getTrack(id: string) {
     return instance.get(`tracks/${id}`);
   },
+  setTrackComment(data: setTrackCommentDataType) {
+    return instance.post('tracks/comment', data);
+  },
   setTracks(data: SetTracksFormDataType) {
     const { name, text, artist, picture, audio } = data;
     const formData = new FormData();
@@ -20,6 +23,15 @@ export const trackAPI = {
     }
     return instance.post('tracks', formData);
   },
+  searchTracks(query: string) {
+    return instance.get('tracks/search', { params: { query } });
+  },
+};
+
+type setTrackCommentDataType = {
+  username: string;
+  text: string;
+  trackId: string;
 };
 
 type SetTracksFormDataType = {

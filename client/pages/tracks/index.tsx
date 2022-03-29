@@ -31,7 +31,7 @@ const Index = (): ReturnComponentType => {
   }
 
   return (
-    <MainLayout>
+    <MainLayout title={'Tracks list'}>
       <Grid container justifyContent="center">
         <Card sx={{ width: '900px', marginTop: '40px' }}>
           <Box p={1}>

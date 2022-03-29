@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { trackAPI } from 'api';
 import { baseURL } from 'api/config';
 import { Path } from 'enums';
+import { useInput } from 'hooks';
 import { MainLayout } from 'layouts/MainLayout';
 import { ReturnComponentType, TrackType } from 'types';
 
@@ -21,13 +22,31 @@ const TrackPage = ({ serverTrack }: TrackPagePropsType): ReturnComponentType => 
   const [track, setTrack] = useState<TrackType>(serverTrack);
 
   const router = useRouter();
+  const user = useInput('');
+  const comment = useInput('');
+
+  const handleAddCommentClick = async (): Promise<void> => {
+    try {
+      const response = await trackAPI.setTrackComment({
+        username: user.value,
+        text: comment.value,
+        trackId: track._id,
+      });
+      setTrack({ ...track, comments: [...track.comments, response.data] });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const handleToListButtonClick = (): Promise<boolean> => {
     return router.push(Path.TRACKS);
   };
 
   return (
-    <MainLayout>
+    <MainLayout
+      title={'Music platform - ' + track.name + ' - ' + track.artist}
+      keywords={'Music, artists, ' + track.name + ', ' + track.artist}
+    >
       <Button
         variant="outlined"
         sx={{ fontSize: 20, marginTop: 2 }}
@@ -52,15 +71,18 @@ const TrackPage = ({ serverTrack }: TrackPagePropsType): ReturnComponentType => 
       <p>{track.text}</p>
       <h1>Comments</h1>
       <Grid container>
-        <TextField label={`You're name`} fullWidth />
+        <TextField {...user} label={`You're name`} fullWidth />
         <TextField
+          {...comment}
           style={{ marginTop: 10 }}
           label="Comment"
           fullWidth
           multiline
           rows={4}
         />
-        <Button style={{ marginTop: 10 }}>Send comment</Button>
+        <Button onClick={handleAddCommentClick} style={{ marginTop: 10 }}>
+          Send comment
+        </Button>
       </Grid>
       <div>
         {track.comments.map(({ username, text, _id }) => {
